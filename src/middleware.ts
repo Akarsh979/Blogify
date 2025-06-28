@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { auth } from './lib/auth';
-import { getSessionCookie } from "better-auth/cookies";
 import { rootDomain } from './lib/utils';
 
 const protectedRoutes = ['/profile','/post/create','/post/edit','/organizations'];
@@ -60,7 +59,10 @@ export async function middleware(request:NextRequest){
     return NextResponse.rewrite(new URL(`/s/${subdomain}`, request.url));  
   }   
 
-     const session = getSessionCookie(request);
+     // Check for session using Better Auth's proper method
+     const session = await auth.api.getSession({
+       headers: request.headers
+     });
 
      const isProtectedRoute = protectedRoutes.some(route=>pathName.startsWith(route));
 
