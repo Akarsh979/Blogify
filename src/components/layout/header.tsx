@@ -62,7 +62,7 @@ function Header(){
       <header className="border-b bg-background sticky top-0 z-10">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
       <div className="flex items-center gap-6">  
-      <Link href="/" className="font-bold text-xl">NextJs 15 Blog App</Link>
+      <Link href="/" className="font-bold text-xl">Blogify</Link>
       
       {/* Only show navigation on main domain */}
       {!isSubdomain && (
