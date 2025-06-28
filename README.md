@@ -67,6 +67,7 @@ You can still explore organization content on the deployed version using **path-
 ```
 Format: https://blogify-dusky-ten.vercel.app/s/{organization-name}
 Example: https://blogify-dusky-ten.vercel.app/s/tech-blog
+Live Example: https://blogify-dusky-ten.vercel.app/s/test-org
 ```
 
 ## 🏠 **Local Development Setup**
