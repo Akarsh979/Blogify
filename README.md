@@ -85,8 +85,8 @@ To experience the **full multi-tenant features** with subdomain routing, run the
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/your-username/blog-app.git
-   cd blog-app
+   git clone https://github.com/Akarsh979/Blogify.git
+   cd Blogify
    ```
 
 2. **Install dependencies**
