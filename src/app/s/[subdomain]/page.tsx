@@ -8,9 +8,9 @@ import { Building2, Users, Calendar, FileText, ArrowRight } from "lucide-react";
 import Link from "next/link";
 
 interface PageProps {
-  params: {
+  params: Promise<{
     subdomain: string;
-  };
+  }>;
 }
 
 export default async function SubdomainPage({ params }: PageProps) {
