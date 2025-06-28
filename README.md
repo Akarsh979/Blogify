@@ -1,36 +1,186 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 📝 Multi-Tenant Blog Platform
 
-## Getting Started
+A modern, multi-tenant blog platform built with Next.js 15, featuring organization-based content management and dynamic subdomain routing.
 
-First, run the development server:
+## ✨ Key Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+### 🏢 **Multi-Tenant Architecture** 
+- **Organization-based content isolation**: Each organization has its own dedicated space and content
+- **Dynamic subdomain routing**: Organizations get their own subdomains (e.g., `organization.domain.com`)
+- **Isolated content management**: Posts and content are scoped to individual organizations
+- **Organization switching**: Users can be members of multiple organizations and switch between them
+
+### 📚 **Blog Management**
+- **Rich post creation**: Create and edit blog posts with a clean interface
+- **Post management**: Full CRUD operations for blog posts
+- **Organization-specific posts**: Posts belong to specific organizations
+- **Author attribution**: Posts are attributed to their creators
+
+### 👥 **User & Organization Management**
+- **User authentication**: Secure login/register with Better Auth
+- **Organization creation**: Users can create and manage organizations
+- **Organization membership**: Join and manage multiple organizations
+- **⚠️ Role-based access**: *Coming soon - Organization-specific permissions*
+- **⚠️ Member invitation & management**: *Coming soon - invite users and manage member roles*
+
+### 🎨 **Modern UI/UX**
+- **Dark/Light theme**: Toggle between themes with persistent settings
+- **Responsive design**: Mobile-first, fully responsive interface
+- **Modern components**: Built with shadcn/ui and Tailwind CSS
+- **Clean typography**: Optimized reading experience
+
+### 🛡️ **Security & Performance**
+- **Server-side rendering**: Fast initial page loads with Next.js 15
+- **Database optimization**: Efficient queries with Drizzle ORM
+- **Secure authentication**: Session management with Better Auth
+- **Edge optimization**: Optimized for Vercel deployment
+
+## 🚀 Tech Stack
+
+- **Framework**: Next.js 15 with App Router
+- **Language**: TypeScript
+- **Database**: PostgreSQL (Neon DB)
+- **ORM**: Drizzle ORM
+- **Authentication**: Better Auth
+- **Styling**: Tailwind CSS
+- **UI Components**: shadcn/ui + Radix UI
+- **Forms**: React Hook Form + Zod validation
+- **State Management**: Zustand
+- **Deployment**: Vercel
+
+## 🌐 Live Demo
+
+**Deployed App**: [https://blogify-dusky-ten.vercel.app](https://blogify-dusky-ten.vercel.app)
+
+### ⚠️ **Important Note: Multi-Tenant Limitation**
+
+The **subdomain-based multi-tenant feature is NOT available** on the deployed version due to hosting limitations:
+
+- Vercel Free tier doesn't support wildcard subdomains (`*.domain.com`)
+- Wildcard subdomain support requires expensive hosting ($20+/month)
+- For hobby projects, this cost is prohibitive
+
+### 🔗 **Alternative Access on Deployed Version**
+
+You can still explore organization content on the deployed version using **path-based URLs**:
+
+```
+Format: https://blogify-dusky-ten.vercel.app/s/{organization-name}
+Example: https://blogify-dusky-ten.vercel.app/s/tech-blog
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🏠 **Local Development Setup**
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+To experience the **full multi-tenant features** with subdomain routing, run the app locally:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Prerequisites
 
-## Learn More
+- Node.js 18+ and npm
+- PostgreSQL database (or Neon DB account)
+- Git
 
-To learn more about Next.js, take a look at the following resources:
+### Installation Steps
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/your-username/blog-app.git
+   cd blog-app
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
 
-## Deploy on Vercel
+3. **Environment setup**
+   
+   Create a `.env.local` file in the root directory:
+   ```env
+   DATABASE_URL='your_postgresql_connection_string'
+   BETTER_AUTH_SECRET='your_32_character_secret_key'
+   BETTER_AUTH_URL='http://localhost:3000'
+   NEXT_PUBLIC_BETTER_AUTH_URL='http://localhost:3000'
+   NEXT_PUBLIC_ROOT_DOMAIN='localhost:3000'
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+4. **Database setup**
+   ```bash
+   # Generate database migrations
+   npm run db:generate
+   
+   # Apply migrations
+   npm run db:migrate
+   
+   # Or push schema directly (for development)
+   npm run db:push
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+5. **Start development server**
+   ```bash
+   npm run dev
+   ```
+
+6. **Access the application**
+   - **Main app**: http://localhost:3000
+   - **Create account** and **create an organization**
+   - **Multi-tenant access**: http://organization-name.localhost:3000
+
+### 🎯 **Testing Multi-Tenant Features Locally**
+
+1. **Register/Login** at `http://localhost:3000`
+2. **Create an organization** (e.g., "Tech Blog" → slug: "tech-blog")
+3. **Create posts** within that organization
+4. **Access organization subdomain**: `http://tech-blog.localhost:3000`
+5. **See isolated content** - only that organization's posts appear
+
+## 📁 **Project Structure**
+
+```
+src/
+├── app/                    # Next.js app router pages
+│   ├── s/[subdomain]/     # Dynamic subdomain routes
+│   ├── organizations/     # Organization management
+│   ├── post/              # Post CRUD operations
+│   └── auth/              # Authentication pages
+├── components/            # Reusable UI components
+│   ├── auth/             # Authentication components
+│   ├── layout/           # Layout components
+│   ├── post/             # Post-related components
+│   └── ui/               # Base UI components
+├── lib/                  # Utilities and configurations
+│   ├── db/               # Database schema and queries
+│   └── auth.ts           # Authentication configuration
+└── middleware.ts         # Subdomain routing logic
+```
+
+## 🔧 **Available Scripts**
+
+```bash
+npm run dev          # Start development server
+npm run build        # Build for production
+npm run start        # Start production server
+npm run lint         # Run ESLint
+npm run db:generate  # Generate Drizzle migrations
+npm run db:migrate   # Apply database migrations
+npm run db:push      # Push schema changes directly
+npm run db:studio    # Open Drizzle Studio
+```
+
+## 🌟 **Key Multi-Tenant Features**
+
+### Subdomain Detection
+The middleware automatically detects subdomains and routes to organization-specific content:
+- `localhost:3000` → Main app
+- `org.localhost:3000` → Organization "org" content
+
+### Content Isolation
+- Organizations have isolated post collections
+- Users can create posts within specific organizations
+- Organization switching maintains user context
+
+### Dynamic Routing
+- Each organization gets its own dedicated subdomain
+- Automatic routing based on subdomain detection
+- Fallback to path-based routing for deployment
+
+
