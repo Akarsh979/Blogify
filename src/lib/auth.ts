@@ -2,6 +2,7 @@ import { betterAuth } from 'better-auth'
 import {drizzleAdapter} from 'better-auth/adapters/drizzle'
 import { db } from './db';
 import * as schema from './db/schema'
+import {organization} from 'better-auth/plugins'
 
 export const auth = betterAuth({
    appName: 'NextJs Blog',
@@ -14,6 +15,9 @@ export const auth = betterAuth({
        user: schema.users,
        session: schema.sessions,
        account: schema.accounts,
+       organization: schema.organizations,
+       member: schema.members,
+       invitation: schema.invitations,
      },
    }),
    emailAndPassword: {
@@ -39,4 +43,7 @@ export const auth = betterAuth({
 			secure: process.env.NODE_ENV === 'production',
 		},
    },
+   plugins: [
+      organization(),
+   ],
 });

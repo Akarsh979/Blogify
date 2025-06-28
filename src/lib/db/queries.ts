@@ -1,6 +1,6 @@
 import { desc, eq } from "drizzle-orm";
 import { db } from ".";
-import { posts } from "./schema";
+import { organizations, posts } from "./schema";
 
 
 
@@ -35,5 +35,27 @@ export async function getPostBySlug(slug: string){
    } catch (e) {
       console.log(e);
       return null;
+   }
+}
+
+// get organization by slug with posts and authors
+export async function getOrganizationBySlug(slug:string){
+   try {
+      const orgs = await db.query.organizations.findFirst({
+         where: eq(organizations.slug,slug),
+         with: {
+            posts: {
+               orderBy: [desc(posts.createdAt)],
+               with: {
+                  author: true,
+               }
+            },
+         },
+      });
+
+      return orgs;
+   } catch (e) {
+      console.log(e);
+      return null;      
    }
 }

@@ -12,8 +12,6 @@ export default async function Home() {
 
   const posts = await getAllPosts();
 
-  console.log(posts);
-
   return (
     <main className="py-10">
        <div className="max-w-7xl mx-auto px-4"> 

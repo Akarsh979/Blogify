@@ -26,6 +26,7 @@ export async function createPost(formData: FormData) {
     const title = formData.get("title") as string;
     const description = formData.get("description") as string;
     const content = formData.get("content") as string;
+    const organizationId = formData.get("organizationId") as string
 
     // Validation check for title,description,content
     if (
@@ -34,12 +35,13 @@ export async function createPost(formData: FormData) {
       !description ||
       description.length < 5 ||
       !content ||
-      content.length < 10
+      content.length < 10 ||
+      !organizationId
     ) {
       return {
         success: false,
         message:
-          "Invalid input: Please check title, description, and content length.",
+          "Invalid input: Please check title, description, and content and organization selection.",
       };
     }
 
@@ -69,6 +71,7 @@ export async function createPost(formData: FormData) {
         content,
         slug,
         authorId: session.user.id,
+        organizationId,
       })
       .returning();
 
@@ -113,6 +116,7 @@ export async function updatePost(postId: number, formData: FormData) {
     const title = formData.get("title") as string;
     const description = formData.get("description") as string;
     const content = formData.get("content") as string;
+    const organizationId = formData.get("organizationId") as string
 
     // Validation check for title,description,content
     if (
@@ -121,12 +125,14 @@ export async function updatePost(postId: number, formData: FormData) {
       !description ||
       description.length < 5 ||
       !content ||
-      content.length < 10
+      content.length < 10 ||
+      !organizationId
+
     ) {
       return {
         success: false,
         message:
-          "Invalid input: Please check title, description, and content length.",
+          "Invalid input: Please check title, description, content and organization",
       };
     }
 
@@ -156,7 +162,7 @@ export async function updatePost(postId: number, formData: FormData) {
     }
 
     await db.update(posts).set({
-      title, description, content, slug, updatedAt: new Date()
+      title, description, content, slug, organizationId, updatedAt: new Date()
     }).where(eq(posts.id,postId));
 
     revalidatePath("/");
